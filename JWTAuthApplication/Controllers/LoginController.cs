@@ -58,8 +58,8 @@ namespace JWTAuthApplication.Controllers
             if (storedUser != null && BCrypt.Net.BCrypt.Verify(user.Password, storedUser.Password))
             {
                 var token = GenerateJwtToken(user);
-                //return RedirectToAction("Welcome", new { token });
-                return Ok(token);
+                return RedirectToAction("Welcome", new { token });
+                //return Ok(token); 
             }
 
             else if (storedUser != null)
@@ -109,7 +109,7 @@ namespace JWTAuthApplication.Controllers
 
             var token = new JwtSecurityToken(jwtSettings.Issuer, jwtSettings.Issuer, claims,
                 expires: DateTime.Now.AddDays(7), signingCredentials: credentials);
-
+           
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
