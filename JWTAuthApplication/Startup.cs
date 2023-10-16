@@ -28,6 +28,7 @@ namespace JWTAuthApplication
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSession();
             services.Configure<CookiePolicyOptions>(options =>
             {
                 // This lambda determines whether user consent for non-essential cookies is needed for a given request.
@@ -58,7 +59,7 @@ namespace JWTAuthApplication
                 };
             });
 
-
+           
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<USERDESKContext>(o => o.UseSqlServer("Server=.\\SQLExpress;Database=USERDESK;Trusted_Connection=True;"));
 
@@ -69,6 +70,7 @@ namespace JWTAuthApplication
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseSession();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -80,7 +82,7 @@ namespace JWTAuthApplication
 
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            
             app.UseAuthentication();
 
            // app.UseAuthorization();

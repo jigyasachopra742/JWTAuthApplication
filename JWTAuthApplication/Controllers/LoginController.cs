@@ -58,6 +58,7 @@ namespace JWTAuthApplication.Controllers
             if (storedUser != null && BCrypt.Net.BCrypt.Verify(user.Password, storedUser.Password))
             {
                 var token = GenerateJwtToken(user);
+               
                 return RedirectToAction("Welcome", new { token });
                 //return Ok(token); 
             }
@@ -110,7 +111,9 @@ namespace JWTAuthApplication.Controllers
             var token = new JwtSecurityToken(jwtSettings.Issuer, jwtSettings.Issuer, claims,
                 expires: DateTime.Now.AddDays(7), signingCredentials: credentials);
            
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var tokenString =  new JwtSecurityTokenHandler().WriteToken(token);
+            HttpContext.Session.SetString("JwtToken", tokenString);
+            return tokenString;
         }
 
 
@@ -127,6 +130,21 @@ namespace JWTAuthApplication.Controllers
 
         public IActionResult Welcome()
         {
+            var tokenString = HttpContext.Session.GetString("JwtToken");
+            if (!string.IsNullOrEmpty(tokenString))
+            {
+                // Decode the JWT token to access its claims
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var token = tokenHandler.ReadJwtToken(tokenString);
+
+                // Retrieve the email claim from the token
+                var emailClaim = token.Claims.FirstOrDefault(claim => claim.Type == ClaimTypes.Name);
+
+
+                // Pass the email to the view
+                ViewBag.Email = emailClaim.Value;
+
+            }
             return View();
         }
 
