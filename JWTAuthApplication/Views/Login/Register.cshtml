@@ -1,0 +1,41 @@
+﻿@model JWTAuthApplication.Models.Usertable
+@{
+    ViewData["Title"] = "Register";
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-warning">
+        @TempData["Message"]
+    </div>
+}
+
+<!-- The rest of your registration form goes here -->
+
+
+<h2>Register</h2>
+<form asp-controller="Login" asp-action="Register" method="post">
+    <input type="hidden" asp-for="Id" />
+    <div class="form-group">
+        <label asp-for="Username">Username</label>
+        <input asp-for="Username" type="text" class="form-control" id="Username" aria-describedby="emailHelp" placeholder="Enter Username">
+    </div>
+
+    <div class="form-group">
+        <label asp-for="EmailId">Email address</label>
+        <input asp-for="EmailId" type="email" class="form-control" id="EmailId" aria-describedby="emailHelp" placeholder="Enter email">
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+    </div>
+    <div class="form-group">
+        <label asp-for="Password">Password</label>
+        <input asp-for="Password" type="password" class="form-control" id="Password" placeholder="Password">
+    </div>
+    <div class="form-group">
+        <div class="form-check">
+            <input asp-for="IsAdmin" class="form-check-input" type="checkbox" id="IsAdmin" value=true>
+            <label asp-for="IsAdmin" class="form-check-label" for="IsAdmin">Is Admin</label>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+

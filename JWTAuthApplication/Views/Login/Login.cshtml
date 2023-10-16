@@ -1,0 +1,25 @@
+﻿@model JWTAuthApplication.Models.Usertable
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h2>Login</h2>
+<p>This is a login page</p>
+<form asp-controller="Login" asp-action="Login" method="post">
+    <!-- Email input -->
+    <div class="form-outline mb-4">
+        <input asp-for="EmailId" type="email" id="EmailId" class="form-control" />
+        <label asp-for="EmailId" class="form-label" for="EmailId">Email address</label>
+    </div>
+
+    <!-- Password input -->
+    <div class="form-outline mb-4">
+        <input asp-for="Password" type="password" id="Password" class="form-control" />
+        <label asp-for="Password" class="form-label" for="Password">Password</label>
+    </div>
+
+    <!-- Submit button -->
+    <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
+</form>
+
+
